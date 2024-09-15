@@ -30,10 +30,8 @@ then
       fi
       read GUESS
 
-      if [[ ! $GUESS =~ ^[0-9]+$ ]]
+      if [[ $GUESS =~ ^[0-9]+$ ]] && (( $GUESS >= 1 && $GUESS <= 1000 ))
       then
-        GUESS "That is not an integer, guess again:"
-      else
         INSERT_NEW_GUESS=$($PSQL "INSERT INTO games(player_id,session) VALUES($ID,$CURRENT_SESSION)")
 
         if [[ $GUESS -lt $RANDOM_NUM ]]
@@ -52,7 +50,8 @@ then
           echo "You guessed it in $GUESSES_IN_CURRENT_SESSION tries. The secret number was $GUESS. Nice job!"
           exit
         fi
-
+      else
+        GUESS "That is not an integer, guess again:"
       fi
     }
 
