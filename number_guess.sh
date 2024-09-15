@@ -30,3 +30,5 @@ GUESS(){
 }
 
 GUESS "Guess the secret number between 1 and 1000:"
+
+RANDOM_NUM=$((RANDOM % 1000 + 1));
