@@ -15,6 +15,9 @@ else
   echo "Welcome back, $NAME! You have played <games_played> games, and your best game took <best_game> guesses."
 fi
 
+INSERT_NEW_SESSION=$($PSQL "INSERT INTO sessions(player_id) VALUES($ID)")
+
+
 RANDOM_NUM=$((RANDOM % 1000 + 1))
 
 GUESS(){
@@ -28,16 +31,16 @@ GUESS(){
   then
     GUESS "That is not an integer, guess again:"
   else
-    INSERT_NEW_GUESS=$($PSQL "INSERT INTO games(player_id) VALUES($ID)")
+    INSERT_NEW_GUESS=$($PSQL "INSERT INTO games(player_id,session) VALUES($ID)")
 
     if [[ $GUESS -lt $RANDOM_NUM ]]
     then
-      GUESS "It's lower than that, guess again:"
+      GUESS "It's higher than that, guess again:"
     fi
 
     if [[ $GUESS -gt $RANDOM_NUM ]]
     then
-      GUESS "It's higher than that, guess again:"
+      GUESS "It's lower than that, guess again:"
     fi
 
     if [[ $GUESS -eq $RANDOM_NUM ]]
