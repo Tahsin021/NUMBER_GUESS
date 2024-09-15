@@ -15,5 +15,18 @@ else
   echo "Welcome back, $NAME! You have played <games_played> games, and your best game took <best_game> guesses."
 fi
 
-echo "Guess the secret number between 1 and 1000:"
-read GUESS
+
+GUESS(){
+  if [[ $1 ]]
+  then
+    echo $1
+  fi
+  read GUESS
+
+  if [[ ! $GUESS =~ ^[0-9]+$ ]]
+  then
+    GUESS "That is not an integer, guess again:"
+  fi
+}
+
+GUESS "Guess the secret number between 1 and 1000:"
