@@ -16,7 +16,7 @@ else
 fi
 
 INSERT_NEW_SESSION=$($PSQL "INSERT INTO sessions(player_id) VALUES($ID)")
-
+CURRENT_SESSION=$($PSQL "SELECT session FROM sessions WHERE player_id=$ID ORDER BY session DESC LIMIT 1")
 
 RANDOM_NUM=$((RANDOM % 1000 + 1))
 
@@ -31,7 +31,7 @@ GUESS(){
   then
     GUESS "That is not an integer, guess again:"
   else
-    INSERT_NEW_GUESS=$($PSQL "INSERT INTO games(player_id,session) VALUES($ID)")
+    INSERT_NEW_GUESS=$($PSQL "INSERT INTO games(player_id,session) VALUES($ID,$CURRENT_SESSION)")
 
     if [[ $GUESS -lt $RANDOM_NUM ]]
     then
