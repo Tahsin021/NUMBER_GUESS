@@ -12,7 +12,9 @@ then
   INSERT_NAME=$($PSQL "INSERT INTO players(name) VALUES('$NAME')")
   ID=$($PSQL "SELECT player_id FROM players WHERE name='$NAME'")
 else
-  echo "Welcome back, $NAME! You have played <games_played> games, and your best game took <best_game> guesses."
+  SESSIONS_WITH_CURRENT_ID=$($PSQL "SELECT COUNT(session) FROM sessions WHERE player_id=$ID;")
+  MIN_SCORE=$($PSQL "SELECT MIN(COUNTS) AS min  FROM (SELECT COUNT(player_id) AS COUNTS FROM games WHERE player_id=$ID GROUP BY session) AS sub;")
+  echo "Welcome back, $NAME! You have played $SESSIONS_WITH_CURRENT_ID games, and your best game took $MIN_SCORE guesses."
 fi
 
 INSERT_NEW_SESSION=$($PSQL "INSERT INTO sessions(player_id) VALUES($ID)")
