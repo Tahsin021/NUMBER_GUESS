@@ -45,7 +45,8 @@ GUESS(){
 
     if [[ $GUESS -eq $RANDOM_NUM ]]
     then
-      echo "You guessed it in <number_of_guesses> tries. The secret number was $GUESS. Nice job!"
+      GUESSES_IN_CURRENT_SESSION=$($PSQL "SELECT COUNT(player_id) FROM games WHERE session=$CURRENT_SESSION;")
+      echo "You guessed it in $GUESSES_IN_CURRENT_SESSION tries. The secret number was $GUESS. Nice job!"
       exit
     fi
 
