@@ -28,6 +28,7 @@ GUESS(){
   then
     GUESS "That is not an integer, guess again:"
   else
+    INSERT_NEW_GUESS=$($PSQL "INSERT INTO games(player_id) VALUES($ID)")
 
     if [[ $GUESS -lt $RANDOM_NUM ]]
     then
@@ -42,6 +43,7 @@ GUESS(){
     if [[ $GUESS -eq $RANDOM_NUM ]]
     then
       echo "You guessed it in <number_of_guesses> tries. The secret number was $GUESS. Nice job!"
+      exit
     fi
 
   fi
