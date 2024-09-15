@@ -15,6 +15,7 @@ else
   echo "Welcome back, $NAME! You have played <games_played> games, and your best game took <best_game> guesses."
 fi
 
+RANDOM_NUM=$((RANDOM % 1000 + 1))
 
 GUESS(){
   if [[ $1 ]]
@@ -26,9 +27,25 @@ GUESS(){
   if [[ ! $GUESS =~ ^[0-9]+$ ]]
   then
     GUESS "That is not an integer, guess again:"
+  else
+
+    if [[ $GUESS -lt $RANDOM_NUM ]]
+    then
+      GUESS "It's lower than that, guess again:"
+    fi
+
+    if [[ $GUESS -gt $RANDOM_NUM ]]
+    then
+      GUESS "It's higher than that, guess again:"
+    fi
+
+    if [[ $GUESS -eq $RANDOM_NUM ]]
+    then
+      echo "You guessed it in <number_of_guesses> tries. The secret number was $GUESS. Nice job!"
+    fi
+
   fi
 }
 
 GUESS "Guess the secret number between 1 and 1000:"
 
-RANDOM_NUM=$((RANDOM % 1000 + 1));
